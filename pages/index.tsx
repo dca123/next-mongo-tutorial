@@ -37,7 +37,7 @@ export default function HomePage() {
           <pre>{JSON.stringify(user, null, 2)}</pre>
         </>
       )}
-      <UserList />
+      {/* <UserList /> */}
       <style jsx>{`
         li {
           margin-bottom: 0.5rem;

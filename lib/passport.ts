@@ -3,10 +3,12 @@ import SteamStrategy from 'passport-steam';
 import { findUserByUsername, validatePassword } from './db';
 
 passport.serializeUser((user, done) => {
+  console.log(`SE`, user);
   done(null, user);
 });
 
-passport.deserializeUser((obj, done) => {
+passport.deserializeUser((req, obj, done) => {
+  console.log(`de`, obj);
   done(null, obj);
 });
 

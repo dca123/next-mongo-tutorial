@@ -16,8 +16,6 @@ const auth = nextConnect()
     }),
   )
   .use((req, res, next) => {
-    console.log(req);
-
     // Initialize mocked database
     // Remove this after you add your own database
     req.session.users = req.session.users || [];
