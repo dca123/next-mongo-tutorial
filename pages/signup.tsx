@@ -10,21 +10,8 @@ export default function SignupPage() {
   async function onSubmit(e) {
     e.preventDefault();
 
-    const body = {
-      username: e.currentTarget.username.value,
-      password: e.currentTarget.password.value,
-      name: e.currentTarget.name.value,
-    };
-
-    if (body.password !== e.currentTarget.rpassword.value) {
-      setErrorMsg(`The passwords don't match`);
-      return;
-    }
-
-    const res = await fetch(`/api/users`, {
+    const res = await fetch(`/api/login`, {
       method: `POST`,
-      headers: { 'Content-Type': `application/json` },
-      body: JSON.stringify(body),
     });
 
     if (res.status === 201) {
@@ -47,27 +34,8 @@ export default function SignupPage() {
       {errorMsg && <p className="error">{errorMsg}</p>}
       <div className="form-container">
         <form onSubmit={onSubmit}>
-          <label>
-            <span>Username</span>
-            <input type="text" name="username" required />
-          </label>
-          <label>
-            <span>Password</span>
-            <input type="password" name="password" required />
-          </label>
-          <label>
-            <span>Repeat password</span>
-            <input type="password" name="rpassword" required />
-          </label>
-          <label>
-            <span>Name</span>
-            <input type="text" name="name" required />
-          </label>
           <div className="submit">
-            <button type="submit">Sign up</button>
-            <Link href="/login">
-              <a>I already have an account</a>
-            </Link>
+            <a href="/api/login">Login with steam</a>
           </div>
         </form>
       </div>

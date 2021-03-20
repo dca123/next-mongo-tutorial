@@ -1,33 +1,32 @@
 import passport from 'passport';
-import LocalStrategy from 'passport-local';
+import SteamStrategy from 'passport-steam';
 import { findUserByUsername, validatePassword } from './db';
 
 passport.serializeUser((user, done) => {
-  // serialize the username into session
-  done(null, user.username);
-});
-
-passport.deserializeUser((req, id, done) => {
-  // deserialize the username back into user object
-  const user = findUserByUsername(req, id);
   done(null, user);
 });
 
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+
 passport.use(
-  new LocalStrategy(
-    { passReqToCallback: true },
-    (req, username, password, done) => {
-      // Here you lookup the user in your DB and compare the password/hashed password
-      const user = findUserByUsername(req, username);
-      // Security-wise, if you hashed the password earlier, you must verify it
-      // if (!user || await argon2.verify(user.password, password))
-      if (!user || !validatePassword(user, password)) {
-        done(null, null);
-      } else {
-        done(null, user);
-      }
+  new SteamStrategy(
+    {
+      returnURL: `http://localhost:3000/api/return`,
+      realm: `http://localhost:3000/`,
+      apiKey: process.env.API_KEY,
+    },
+    async (identifier, profile, done) => {
+      const newUser = {
+        steamid: profile.id,
+        name: profile.displayName,
+        imageUrl: profile.photos[2].value,
+        profileUrl: profile._json.profileurl,
+        countryCode: profile._json.loccountrycode,
+      };
+      return done(null, newUser);
     },
   ),
 );
-
 export default passport;

@@ -30,7 +30,7 @@ export function createUser(req, { username, password, name }) {
 export function findUserByUsername(req, username) {
   // Here you find the user based on id/username in the database
   // const user = await db.findUserById(id)
-  return req.session.users.find((user) => user.username === username);
+  return req.session.users.find((user) => user.steamid === username);
 }
 
 export function updateUserByUsername(req, username, update) {
